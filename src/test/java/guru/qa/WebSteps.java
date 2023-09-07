@@ -17,9 +17,9 @@ public class WebSteps {
 
     @Step("Ищем репозиторий {repo}")
     public WebSteps searchForRepository(String repo) {
-        $(".header-search-input").click();
-        $(".header-search-input").sendKeys(repo);
-        $(".header-search-input").submit();
+        $(".search-input").click();
+        $("#query-builder-test").setValue(repo);
+        $("#query-builder-test").submit();
         return this;
     }
 
@@ -36,8 +36,8 @@ public class WebSteps {
     }
 
     @Step("Проверяем наличие Issue с номером {issue}")
-    public WebSteps shouldSeeIssueWithNumber(int issue) {
-        $(withText("#" + issue)).should(exist);
+    public WebSteps shouldSeeIssueWithName(String issue) {
+        $(withText(issue)).should(exist);
         return this;
     }
 }

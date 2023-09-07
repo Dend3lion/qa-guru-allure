@@ -17,8 +17,8 @@ import static org.openqa.selenium.By.linkText;
 
 public class StepsTest {
     private static final String URL = "https://github.com";
-    private static final String REPOSITORY = "Dend3lion/qa-guru-hw-allure";
-    private static final int ISSUE = 80;
+    private static final String REPOSITORY = "Dend3lion/qa-guru-allure";
+    private static final String ISSUE = "Test Issue";
 
     @BeforeAll
     public static void beforeAll(){
@@ -31,7 +31,7 @@ public class StepsTest {
     @Story("Создание Issue")
     @Owner("eroshenkoam")
     @Severity(SeverityLevel.BLOCKER)
-    @Link(value = "Testing", url = "https://testing.github.com")
+    @Link(value = "Testing", url = "https://github.com")
     @DisplayName("Создание Issue для авторизованного пользователя с помощью чистого Selenide")
     public void basicSelenideTest(){
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -39,12 +39,12 @@ public class StepsTest {
         open(URL);
 
         $(".search-input").click();
-        $(".#query-builder-test").setValue(REPOSITORY);
+        $("#query-builder-test").setValue(REPOSITORY);
         $("#query-builder-test").submit();
 
-        $(linkText("qa-guru/qa_guru_14_10")).click();
+        $(linkText(REPOSITORY)).click();
         $("#issues-tab").click();
-        $(withText("#" + ISSUE)).should(exist);
+        $(withText(ISSUE)).should(exist);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class StepsTest {
     @Story("Создание Issue")
     @Owner("eroshenkoam")
     @Severity(SeverityLevel.BLOCKER)
-    @Link(value = "Testing", url = "https://testing.github.com")
+    @Link(value = "Testing", url = "https://github.com")
     @DisplayName("Создание Issue для авторизованного пользователя с помощью Steps")
     public void lambdaStepTest() {
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -60,13 +60,13 @@ public class StepsTest {
         step("Открываем главную страницу", () -> open(URL));
         step("Ищем репозиторий " + REPOSITORY, () -> {
             $(".search-input").click();
-            $(".#query-builder-test").setValue(REPOSITORY);
+            $("#query-builder-test").setValue(REPOSITORY);
             $("#query-builder-test").submit();
         });
         step("Кликаем по ссылке репозитория " + REPOSITORY, () -> $(linkText(REPOSITORY)).click());
         step("Открываем таб Issues", () -> $("#issues-tab").click());
         step("Проверяем наличие Issue с номером " + ISSUE, () -> {
-            $(withText("#" + ISSUE)).should(exist);
+            $(withText( ISSUE)).should(exist);
         });
     }
 
@@ -75,7 +75,7 @@ public class StepsTest {
     @Story("Создание Issue")
     @Owner("eroshenkoam")
     @Severity(SeverityLevel.BLOCKER)
-    @Link(value = "Testing", url = "https://testing.github.com")
+    @Link(value = "Testing", url = "https://github.com")
     @DisplayName("Поиск Issue для авторизованного пользователя с помощью annotated Steps")
     public void annotatedStepTest() {
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -85,6 +85,6 @@ public class StepsTest {
             .searchForRepository(REPOSITORY)
             .clickOnRepositoryLink(REPOSITORY)
             .openIssuesTab()
-            .shouldSeeIssueWithNumber(ISSUE);
+            .shouldSeeIssueWithName(ISSUE);
     }
 }
